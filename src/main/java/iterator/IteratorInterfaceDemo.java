@@ -27,7 +27,9 @@ public class IteratorInterfaceDemo {
         for(int val : values){
             System.out.println(val);
         }
-        // forEach method is iterating collection using lambda expressions called for each element in the collection.
 
+        // forEach method is iterating collection using lambda expressions called for each element in the collection.
+        System.out.println("testing for each method");
+        values.forEach((Integer val) -> System.out.println(val));
     }
 }

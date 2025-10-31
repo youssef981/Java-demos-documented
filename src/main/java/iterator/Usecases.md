@@ -1,0 +1,1 @@
+- before in java 1.5 we had the iterator methods already in the collection interface but for some usecases (see ... ) they decide to separate that behaviour in one separated interface in java 1.8 and there we find the `forEach()` method in java 1.8.
