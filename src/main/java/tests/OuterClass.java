@@ -1,4 +1,4 @@
-package test;
+package tests;
 
 public class OuterClass {
     int num = 1;
@@ -13,6 +13,17 @@ public class OuterClass {
         int innerClass2Num = 4;
         public void display(){
             System.out.println(num+tag+innerClassNum+innnerClassTag+innerClass2Num);
+        }
+    }
+
+    public static class NestedClass{
+        public void display(){
+            System.out.println("this an extent of an nested class");
+        }
+    }
+    public class InnerClass{
+        public void display1(){
+            System.out.println("this an extent of an InnerClass");
         }
     }
 
