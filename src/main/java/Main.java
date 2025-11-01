@@ -1,4 +1,5 @@
 import tests.AnOtherClass;
+import tests.Anonymously;
 import tests.SomeOtherClass;
 import collection.CollectionInterfaceDemo;
 import iterator.IteratorInterfaceDemo;
@@ -24,6 +25,15 @@ public class Main {
 //        someOtherClass.display();
 //        AnOtherClass anOtherClass = new AnOtherClass();
 //        anOtherClass.display();
+
+        Anonymously obj = new Anonymously() {
+            @Override
+            public void doingIt() {
+                System.out.println("One use implementation on obj doingIt call event");
+            }
+        };
+
+        obj.doingIt();
 
 
     }

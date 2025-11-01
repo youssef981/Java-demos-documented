@@ -9,7 +9,7 @@ public class OuterClass {
         String innnerClassTag = "V inner1";
     }
 
-    public class InnerClass2 extends InnerClass1{
+         public class InnerClass2 extends InnerClass1{
         int innerClass2Num = 4;
         public void display(){
             System.out.println(num+tag+innerClassNum+innnerClassTag+innerClass2Num);
