@@ -1,5 +1,5 @@
 package tests;
 
-public abstract class Anonymously {
+public abstract class AnounymousClassInnerDemo {
     public abstract void doingIt();
 }

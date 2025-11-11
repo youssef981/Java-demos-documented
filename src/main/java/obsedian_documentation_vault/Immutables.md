@@ -1,0 +1,1 @@
+final / all variables are static and private / pay attention to references. 
