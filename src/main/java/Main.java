@@ -1,15 +1,14 @@
-import enums.Operation;
-import tests.*;
-import collection.CollectionInterfaceDemo;
-import iterator.IteratorInterfaceDemo;
-import queue_interface.PriorityQueueDemo;
 
-import javax.swing.plaf.metal.MetalPopupMenuSeparatorUI;
-import java.lang.classfile.attribute.SourceDebugExtensionAttribute;
+import ch.qos.logback.core.joran.conditional.ThenAction;
+import tests.*;
+
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
     public static int add(int a, int b){
@@ -23,7 +22,19 @@ public class Main {
         return a;
     }
 
-    public static void main(String[] args) {
+    char getRevertedBracket(char currentBracket){
+        char revertBracket = switch(currentBracket){
+            case '(':
+                yield ')';
+            case ')':
+                yield '(';
+            default:
+                throw new IllegalStateException("Unexpected value: " + currentBracket);
+        };
+        return revertBracket;
+    }
+
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
 //        IteratorInterfaceDemo.playIterator();
 //        CollectionInterfaceDemo.playCollection();
 //        PriorityQueueDemo.playPriorityQueueDemo();
@@ -90,7 +101,7 @@ public class Main {
 //        System.out.println(Operation.valueOf("PLUS").operate(2,2));
 //        System.out.println(Operation.valueOf("MINUS").operate(2,2));
 //        int x=3,y=2;
-//        for(Operation o:Operation.values()){
+//        for(Operation o : Operation.values()){
 //            System.out.println(x + o.symbol + y + " = " + o.operate(x,y));
 //        }
 
@@ -100,6 +111,265 @@ public class Main {
         System.out.println(Integer.toBinaryString(1));
         System.out.println(Integer.toBinaryString(-1));
 
+        // switch return options but still can not add any additional expressions
+        int val = 1;
+        String outputValue = switch(val){
+            case 1 -> "one";
+            case 2 -> "two";
+            case 3 -> "Three";
+            default -> "None";
+        };
+        System.out.println(outputValue);
+
+        // but we can use yield expression
+        String outputValueR = switch(val){
+            case 1 -> {
+                System.out.println("an expression");
+                yield "one";
+            }
+            case 2 -> "two";
+            case 3 -> "Three";
+            default -> "None";
+        };
+
+        System.out.println(outputValueR);
+
+//        MyThread t1 = new MyThread();
+//        MyThread t2 = new MyThread();
+//        t1.start();
+//        t2.start();
+//        Thread t3 = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println(Thread.currentThread().getName());
+//            }
+//        });
+//        t3.run();
+//        t3.start();
+        System.out.println("---------threads---------");
+
+//        ThreadJoin th1 = new ThreadJoin(); th1.setName("th1"); th1.setPriority(10);
+//        ThreadJoin th2 = new ThreadJoin(); th2.setName("th2"); th2.setPriority(10);
+//        ThreadJoin th3 = new ThreadJoin(); th3.setName("th3"); th3.setPriority(10);
+//        th2.start();
+//        try {
+//            System.out.println(Thread.currentThread().getName());
+//            th2.join();
+//            System.out.println(Thread.currentThread().getName());
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        th1.start();
+//        try {
+//            System.out.println(Thread.currentThread().getName());
+//            th1.join(500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println(Thread.currentThread().getName());
+//        th3.start();
+
+        System.out.println("\n InteruptException");
+        //InteruptException
+//        IntruptExceptionDemo d = new IntruptExceptionDemo();
+//        d.threadToInterupt = Thread.currentThread();
+//        d.start();
+//        try {
+//            d.join();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+
+
+//        ClassA classA = new ClassA();
+//        ThreadA tA = new ThreadA(classA);
+//        ThreadB tB = new ThreadB(classA);
+//        tA.start();
+//        tB.start();
+        System.out.println("\n dead lock demo");
+        //dead lock demo
+//        DeadLockDemo deadLockDemo = new DeadLockDemo();
+//        Thread t1 = new Thread(() -> deadLockDemo.method1());
+//        Thread t2 = new Thread(() -> deadLockDemo.method2());
+//        t1.start();
+//        t2.start();
+//        try {
+//            t1.join();
+//            t2.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+//        StarvationDemo example = new StarvationDemo();
+//        Thread highPriorityThread = new Thread(() -> {
+//            while(true){
+//                example.highPriorityTask();
+//            }
+//        },"HighPriorityThread");
+//        highPriorityThread.setPriority(Thread.MAX_PRIORITY);
+//
+//        Thread lowPriorityThread = new Thread(() -> {
+//            example.highPriorityTask();
+//        },"LowPriorityThread");
+//        highPriorityThread.setPriority(Thread.MAX_PRIORITY);
+//        lowPriorityThread.setPriority(Thread.MIN_PRIORITY);
+//        highPriorityThread.start();
+//        lowPriorityThread.start();
+
+        System.out.println("\n Race condition exemple " + Thread.currentThread().getName());
+//        RaceCnditionExample raceDemo = new RaceCnditionExample();
+//        Thread t1 = new Thread(()->{
+//            for(int j = 1;j<=1000;j++) raceDemo.increment();
+//        });
+//
+//        Thread t2 = new Thread(()->{
+//            for(int j = 1;j<=1000;j++) raceDemo.increment();
+//        });
+//
+//        t1.start();
+//        t2.start();
+//
+//        try {
+//            t1.join();
+//            t2.join();
+//        } catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
+//        System.out.println("the final value of i is: "+raceDemo.getI());
+//
+        System.out.println("\nThreadLocal demo");
+
+
+        System.out.println("\n Threadpool demo");
+
+        System.out.println("\n Future Interface demo");
+        // Create an ExecutorService
+        System.out.println("\nmain is completed");
+    }
+
+
+    static class ThreadJoin extends Thread{
+        public void run(){
+            for(int i = 1;i<=5;i++){
+                try {
+                    System.out.println(Thread.currentThread().getName()+": "+i);
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    static class IntruptExceptionDemo extends Thread{
+        Thread threadToInterupt;
+        public void run(){
+            threadToInterupt.interrupt();
+        }
+    }
+
+
+    public static class lazyThread{
+        private static Thread thread ;
+        private void creatTheThread(){
+            if(thread==null){
+                thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("this lazy is running");
+                    }
+                });
+            }
+        }
+        private void runTheThread(){
+            if(thread!=null && thread.isAlive()){
+                thread.start();
+            }
+        }
+    }
+
+    //Dead lock demo
+    public static class DeadLockDemo{
+        final Object lock1 = new Object();
+        final  Object lock2 = new Object();
+
+        public void method1(){
+            synchronized (lock1){
+                System.out.println("thread1 is holding lock1");
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            synchronized (lock2){
+                System.out.println("thread1 is holding lock2");
+            }
+        }
+
+        public void method2(){
+            synchronized (lock2){
+                System.out.println("thread2 is holding lock2");
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            synchronized (lock1){
+                System.out.println("thread2 is holding lock1");
+            }
+        }
+    }
+
+    public static class StarvationDemo {
+        public void highPriorityTask() {
+            System.out.println("the current thread: " + Thread.currentThread().getName() + " is executing...");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static class RaceCnditionExample{
+        private int i = 0;
+        public void increment(){
+            i++;
+        }
+        public int getI(){
+            return i;
+        }
+    }
+    //ThreadLocal
+    public static class ThreadLocalExample{
 
     }
+
+
+    static class WorkerDemoClass implements Runnable {
+        private String command;
+
+        public WorkerDemoClass(String command) {
+            this.command = command;
+        }
+
+        @Override
+        public void run() {
+            System.out.println("Current Thread: "+Thread.currentThread().getName()+" is executing the command " +
+                    command);
+            processingCommand();
+        }
+
+        private void processingCommand() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println(command+" in "+ Thread.currentThread().getName()+" is executed");
+        }
+    }
+
 }

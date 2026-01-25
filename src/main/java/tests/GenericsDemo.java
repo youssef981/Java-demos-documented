@@ -1,7 +1,5 @@
 package tests;
 
-import java.lang.classfile.constantpool.FieldRefEntry;
-
 public class GenericsDemo<T extends Comparable<T> ,S> {
 
     //previously we have to use just Object class to apply generics

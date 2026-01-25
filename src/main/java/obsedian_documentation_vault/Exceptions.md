@@ -44,6 +44,7 @@ is catched or not (the try block did not throw any exception) the finaly block w
 closing object (closing a socket for example).
 
 Example of re-throw of an exception:
+
 ```java
 public class DataProcessor {
     
