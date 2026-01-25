@@ -5,6 +5,25 @@ import java.util.concurrent.CountDownLatch;
 public class TDSynchronizedWaitNotif implements ThreadsDemo{
 
     private final String NAME = "\nSynchronized wait notif demo";
+    private static boolean buttonOff;
+
+    @Override
+    public void on() {
+        buttonOff = true;
+    }
+    @Override
+    public void off() {
+        buttonOff = false;
+    }
+
+    @Override
+    public void execute() throws Exception {
+        if(buttonOff){
+            demo();
+        } else {
+            System.out.println("\""+name()+"\""+" DEMO IS OFF");
+        }
+    }
     CountDownLatch latch = new CountDownLatch(2);
 
     synchronized void m1(){
@@ -37,7 +56,7 @@ public class TDSynchronizedWaitNotif implements ThreadsDemo{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void demo() throws Exception {
         System.out.println(name());
         Thread t1 = new Thread(() -> {
             m1();

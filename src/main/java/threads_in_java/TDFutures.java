@@ -5,6 +5,25 @@ import java.util.concurrent.*;
 public class TDFutures implements ThreadsDemo{
 
     private final String NAME = "\nFutures Demo";
+    private static boolean buttonOff;
+
+    @Override
+    public void on() {
+        buttonOff = true;
+    }
+    @Override
+    public void off() {
+        buttonOff = false;
+    }
+
+    @Override
+    public void execute() throws Exception {
+        if(buttonOff){
+            demo();
+        } else {
+            System.out.println("\""+name()+"\""+" DEMO IS OFF");
+        }
+    }
     CountDownLatch latch = new CountDownLatch(2); // one for demo title and the other fo the task itself
 
     @Override
@@ -13,7 +32,7 @@ public class TDFutures implements ThreadsDemo{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void demo() throws Exception {
         System.out.println(name());
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Callable<String> callableTask = () -> {

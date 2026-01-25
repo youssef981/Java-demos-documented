@@ -9,7 +9,25 @@ public class TDConditioning implements ThreadsDemo{
 
     private final String NAME = "\nConditioning in threads";
     CountDownLatch latch = new CountDownLatch(2);
+    private static boolean buttonOff;
 
+    @Override
+    public void on() {
+        buttonOff = true;
+    }
+    @Override
+    public void off() {
+        buttonOff = false;
+    }
+
+    @Override
+    public void execute() throws Exception {
+        if(buttonOff){
+            demo();
+        } else {
+            System.out.println("\""+name()+"\""+" DEMO IS OFF");
+        }
+    }
 
     @Override
     public String name() {
@@ -48,7 +66,7 @@ public class TDConditioning implements ThreadsDemo{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void demo() throws Exception {
         System.out.println(name());
         Thread producer = new Thread(() -> {
             try {

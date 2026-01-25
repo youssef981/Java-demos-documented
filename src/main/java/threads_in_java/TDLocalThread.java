@@ -5,6 +5,25 @@ import java.util.concurrent.CountDownLatch;
     public class TDLocalThread implements ThreadsDemo{
 
     private String NAME = "\nLocal Thread var demo";
+        private static boolean buttonOff;
+
+        @Override
+        public void on() {
+            buttonOff = true;
+        }
+        @Override
+        public void off() {
+            buttonOff = false;
+        }
+
+        @Override
+        public void execute() throws Exception {
+            if(buttonOff){
+                demo();
+            } else {
+                System.out.println("\""+name()+"\""+" DEMO IS OFF");
+            }
+        }
     CountDownLatch latch = new CountDownLatch(2);
 
     @Override
@@ -20,7 +39,7 @@ import java.util.concurrent.CountDownLatch;
         }
     };
     @Override
-    public void execute() throws Exception {
+    public void demo() throws Exception {
         System.out.println(name());
         Thread thh1 = new Thread(()->{
             for(int i=1;i<=4;i++){

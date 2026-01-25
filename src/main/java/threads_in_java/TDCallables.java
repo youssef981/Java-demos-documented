@@ -8,7 +8,25 @@ public class TDCallables extends Thread implements ThreadsDemo, Callable<String>
 
     private CountDownLatch latch = new CountDownLatch(6);
     private final String NAME = "\nCallables Demo";
+    private static boolean buttonOff;
 
+    @Override
+    public void on() {
+        buttonOff = true;
+    }
+    @Override
+    public void off() {
+        buttonOff = false;
+    }
+
+    @Override
+    public void execute() throws Exception {
+        if(buttonOff){
+            demo();
+        } else {
+            System.out.println("\""+name()+"\""+" DEMO IS OFF");
+        }
+    }
     private int taskId;
 
 
@@ -33,7 +51,7 @@ public class TDCallables extends Thread implements ThreadsDemo, Callable<String>
     }
 
     @Override
-    public void execute() throws Exception {
+    public void demo() throws Exception {
         System.out.println(name());
         List<Future<String>> futures = new ArrayList<>();
         ExecutorService executor = Executors.newFixedThreadPool(2);

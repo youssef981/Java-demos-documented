@@ -7,31 +7,35 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DemoRunner {
 
     public static void main(String[] args) {
-        List<ThreadsDemo> demos = List.of(
-                new TDConditioning(),
-                new TDCallables(),
-                new TDLocalThread(),
-                new TDSynchronizedWaitNotif(),
-                new TDFutures());
 
-        for(ThreadsDemo d:demos){
-            try {
-                d.execute();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        List<DemoEntry> demoEntries = List.of(
+                new DemoEntry(new TDConditioning(), true),
+                new DemoEntry(new TDCallables(), false),
+                new DemoEntry(new TDLocalThread(), true),
+                new DemoEntry(new TDSynchronizedWaitNotif(), false),
+                new DemoEntry(new TDFutures(), false),
+                new DemoEntry(new TDVolatile(), true)
+        );
+
+        demoEntries.forEach(entry -> {
+            if (entry.enabled()) {
+                entry.demo().on();
+            } else {
+                entry.demo().off();
             }
-        }
-//        ExecutorService poolObj = Executors.newFixedThreadPool(1);
-//        ScheduledExecutorService poolSheduled = Executors.newScheduledThreadPool(1);
+        });
 
-//        poolObj.submit(() -> {
-//            try {
-//                Thread.sleep(15000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            System.out.println("Task is completed");
-//        });
+        demoEntries.stream()
+                .filter(DemoEntry::enabled)
+                .map(DemoEntry::demo)
+                .forEach(demo -> {
+                    try {
+                        demo.execute();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+    }
 
         AtomicInteger i = new AtomicInteger(0);
 
@@ -86,8 +90,6 @@ public class DemoRunner {
 //            System.out.println("Task is completed");
 //        });
 
-
-    }
 
 //    public void run(){
 //        for(int i = 0;i<=5;i++){
